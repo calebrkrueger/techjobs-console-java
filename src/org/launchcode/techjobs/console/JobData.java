@@ -75,13 +75,50 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
+            String dValue = aValue.toLowerCase();
+            String value3 = value.toLowerCase();
+            if (dValue.contains(value3)||value3.contains(dValue)) {
                 jobs.add(row);
             }
         }
 
         return jobs;
+    }
+    /**
+     * Search all columns for the given term
+     *
+     * @param value The search term to look for
+     * @return      List of all jobs with at least one field containing the value
+     */
+
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        // load data, if not already loaded
+        loadData();
+        ArrayList<HashMap<String, String>> jobValueList = new ArrayList<>();
+        for (HashMap<String, String> row : allJobs) {
+            for(String searchTerm : row.keySet()){
+
+                String bValue = row.get(searchTerm);
+
+                String cValue = bValue.toLowerCase();
+                String value2 = value.toLowerCase();
+
+                if (!jobValueList.contains(row)) {
+
+                    if(value2.contains(cValue) ||cValue.contains(value2)){
+                        jobValueList.add(row);
+                    }
+                }
+
+            }
+
+
+        }
+
+
+        return jobValueList;
+
     }
 
     /**
